@@ -30,7 +30,8 @@ var banner = `
 
 var search = "https://crt.sh/?q="
 
-func crtgo() {
+func main() {
+	color.Cyan(banner)
 	if os.Args != nil && len(os.Args) > 1 {
 		domain := os.Args[1]
 		if domain != "" {
@@ -54,14 +55,6 @@ func crtgo() {
 			fmt.Println(output2)
 			color.Green("[+] Domains saved to: /tmp/domains.txt")
 			color.Red("+--------------------------------=[Done!]=----------------------------------------+")
-		} else {
-			domain = ""
-			fmt.Println("No command given")
 		}
 	}
-
-}
-func main() {
-	color.Cyan(banner)
-	crtgo()
 }
