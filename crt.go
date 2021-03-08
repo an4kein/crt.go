@@ -16,11 +16,12 @@ import (
 )
 
 var banner = `
-           _         _     
-  ___ _ __| |_   ___| |__  
- / __| '__| __| / __| '_ \ 
-| (__| |  | |_ _\__ \ | | |
- \___|_|   \__(_)___/_| |_|
+            _                
+   ___ _ __| |_   __ _  ___  
+ /  __| '__| __| / _  |/ _ \ 
+|  (__| |  | |_ | (_| | (_) |
+ \___ |_|   \__(_)__, |\___/ 
+         	 |___/       
 						 
  [+] by @anakein
  [+] https://github.com/an4kein
@@ -42,9 +43,9 @@ func crtgo() {
 			f, err := os.Create("/tmp/output.txt")
 			defer f.Close()
 			resp.Write(f)
-			cmd3 := `cat /tmp/output.txt |grep "\." |grep -v "<A style=\|.png\|href=\|&\|{\|crt.sh\|W3C/\|/2.0" |tr "<BR>" "\n"   |grep "\."  |sort -u >> /tmp/domains.txt & cat /tmp/domains.txt`
+			cmd3 := `cat /tmp/output.txt |grep "\." |grep -v "<A style=\|.png\|href=\|&\|{\|crt.sh\|W3C/\|/2.0" |tr "<BR>" "\n"   |grep "\."  |sort -u >> /tmp/domains.txt `
 			exec.Command("sh", "-c", cmd3).Output()
-			cmd4 := `cat /tmp/domains.txt`
+			cmd4 := `cat /tmp/domains.txt \n; wc -l /tmp/domains.txt`
 			out2, err := exec.Command("sh", "-c", cmd4).Output()
 			if err != nil {
 				fmt.Printf("%s", err)
