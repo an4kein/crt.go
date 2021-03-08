@@ -1,3 +1,5 @@
-# crt.go
+# Fast scan domains in site crt.sh using this tool write in go
 
-Estou ajustando ainda.... 
+## Requirements
+
+`go get github.com/fatih/color`
