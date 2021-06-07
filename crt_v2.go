@@ -32,7 +32,6 @@ func GetJsonFromCrt(domain string) {
 	if err != nil {
 		fmt.Println("error:", err)
 	}
-	fmt.Printf("%T", subdomains)
 	for _, subdomain := range subdomains {
 		fmt.Println("Found:", subdomain.CommonName)
 	}
