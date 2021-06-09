@@ -29,7 +29,7 @@ type Crtsr struct {
 	CommonName string `json:"common_name"`
 }
 
-func GetJsonFromCrt(domain string) {
+func GetJsonFromCrt(domain string) ([]string, error) {
 
 	resp, err := http.Get(fmt.Sprintf("https://crt.sh/?q=%s&output=json", domain))
 	if err != nil {
@@ -46,11 +46,28 @@ func GetJsonFromCrt(domain string) {
 	if err != nil {
 		fmt.Println("error:", err)
 	}
-	for _, subdomain := range subdomains {
-		fmt.Println(subdomain.CommonName)
+	output := make([]string, 0)
+	for _, subdomains := range subdomains {
+		output = append(output, subdomains.CommonName)
 	}
-	fmt.Println("FOUND", len(subdomains), "SUBDOMAINS")
+	return output, nil
 
+}
+func removeDuplicateValues(strSlice []string) []string {
+	// https://www.geeksforgeeks.org/how-to-remove-duplicate-values-from-slice-in-golang/
+	keys := make(map[string]bool)
+	list := []string{}
+
+	// If the key(values of the slice) is not equal
+	// to the already present value in new slice (list)
+	// then we append it. else we jump on another element.
+	for _, entry := range strSlice {
+		if _, value := keys[entry]; !value {
+			keys[entry] = true
+			list = append(list, entry)
+		}
+	}
+	return list
 }
 
 func main() {
@@ -59,7 +76,17 @@ func main() {
 		domain := os.Args[1]
 		if domain != "" {
 			fmt.Println("+---------------------=[Gathering Certificate Subdomains]=------------------------+")
-			GetJsonFromCrt(domain)
+			subdom, err := GetJsonFromCrt("uber.com")
+			if err != nil {
+				fmt.Println("error: ", err)
+			}
+			removeDuplicateValuesSlice := removeDuplicateValues(subdom)
+
+			// Printing the filtered slice
+			// without duplicates
+			for _, uniquesubdomain := range removeDuplicateValuesSlice {
+				fmt.Println(uniquesubdomain)
+			}
 			fmt.Println("+--------------------------------=[Done!]=----------------------------------------+")
 		}
 	}
