@@ -76,7 +76,7 @@ func main() {
 		domain := os.Args[1]
 		if domain != "" {
 			fmt.Println("+---------------------=[Gathering Certificate Subdomains]=------------------------+")
-			subdom, err := GetJsonFromCrt("uber.com")
+			subdom, err := GetJsonFromCrt(domain)
 			if err != nil {
 				fmt.Println("error: ", err)
 			}
